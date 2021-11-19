@@ -5,12 +5,11 @@ public class MyHomework1 {
     public static void main(String[] args) {
         homework(1);
 
-        double size = 5;
-        System.out.println("Площадь квадрата со стороной " + size + " = " + squareMethod(size));
+        Square square = new Square(5);
+        System.out.println("Площадь квадрата со стороной " + square.size + " = " + squareMethod(square));
 
-        double a = 4;
-        double b = 6;
-        System.out.println("Площадь прямоугольника со сторонами " + a + " и " + b + " = " + squareMethod(a, b) );
+        Rectangle rectangle = new Rectangle(4, 6);
+        System.out.println("Площадь прямоугольника со сторонами " + rectangle.a + " и " + rectangle.b + " = " + squareMethod(rectangle));
 
     }
 
@@ -18,11 +17,11 @@ public class MyHomework1 {
         System.out.println("Задание №" + number);
     }
 
-    public static double squareMethod(double size) {
-        return Math.pow(size, 2);
+    public static double squareMethod(Square square) {
+        return Math.pow(square.size, 2);
     }
 
-    public static double squareMethod(double a, double b){
-        return a*b;
+    public static double squareMethod(Rectangle rectangle) {
+        return rectangle.a * rectangle.b;
     }
 }
