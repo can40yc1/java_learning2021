@@ -32,7 +32,8 @@ public class ContactCreationTests {
     @Test
     public void testContactCreation() throws Exception {
         createNewContact();
-        fillContactFields();
+        fillContactFields(new ContactData("first", "middle", "last",
+                "mick", "mister", "microsoft", "NY, Statue of Liberty"));
         submitContact();
         returnHome();
     }
@@ -45,22 +46,22 @@ public class ContactCreationTests {
         wd.findElement(By.linkText("home page")).click();
     }
 
-    private void fillContactFields() {
+    private void fillContactFields(ContactData contactData) {
         wd.findElement(By.name("firstname")).clear();
-        wd.findElement(By.name("firstname")).sendKeys("first");
+        wd.findElement(By.name("firstname")).sendKeys(contactData.getFirstname());
         wd.findElement(By.name("middlename")).clear();
-        wd.findElement(By.name("middlename")).sendKeys("middle");
+        wd.findElement(By.name("middlename")).sendKeys(contactData.getMiddlename());
         wd.findElement(By.name("lastname")).clear();
-        wd.findElement(By.name("lastname")).sendKeys("last");
+        wd.findElement(By.name("lastname")).sendKeys(contactData.getLastname());
         wd.findElement(By.name("nickname")).clear();
-        wd.findElement(By.name("nickname")).sendKeys("mick");
+        wd.findElement(By.name("nickname")).sendKeys(contactData.getNickname());
         wd.findElement(By.name("title")).click();
         wd.findElement(By.name("title")).clear();
-        wd.findElement(By.name("title")).sendKeys("mister");
+        wd.findElement(By.name("title")).sendKeys(contactData.getTitle());
         wd.findElement(By.name("company")).clear();
-        wd.findElement(By.name("company")).sendKeys("microsoft");
+        wd.findElement(By.name("company")).sendKeys(contactData.getCompany());
         wd.findElement(By.name("address")).clear();
-        wd.findElement(By.name("address")).sendKeys("NY, Statue of Liberty");
+        wd.findElement(By.name("address")).sendKeys(contactData.getAddress());
     }
 
     private void createNewContact() {
