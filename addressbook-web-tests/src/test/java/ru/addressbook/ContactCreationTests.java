@@ -17,17 +17,35 @@ public class ContactCreationTests {
         System.setProperty("webdriver.chrome.driver", "chromedriver");
         wd = new ChromeDriver();
         wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        login("admin", "secret", "http://localhost/addressbook/index.php");
+    }
+
+    private void login(String username, String password, String url) {
+        wd.get(url);
+        wd.findElement(By.name("user")).clear();
+        wd.findElement(By.name("user")).sendKeys(username);
+        wd.findElement(By.name("pass")).clear();
+        wd.findElement(By.name("pass")).sendKeys(password);
+        wd.findElement(By.id("LoginForm")).submit();
     }
 
     @Test
     public void testContactCreation() throws Exception {
-        wd.get("http://localhost/addressbook/index.php");
-        wd.findElement(By.name("user")).clear();
-        wd.findElement(By.name("user")).sendKeys("admin");
-        wd.findElement(By.name("pass")).clear();
-        wd.findElement(By.name("pass")).sendKeys("secret");
-        wd.findElement(By.id("LoginForm")).submit();
-        wd.findElement(By.linkText("add new")).click();
+        createNewContact();
+        fillContactFields();
+        submitContact();
+        returnHome();
+    }
+
+    private void submitContact() {
+        wd.findElement(By.name("submit")).click();
+    }
+
+    private void returnHome() {
+        wd.findElement(By.linkText("home page")).click();
+    }
+
+    private void fillContactFields() {
         wd.findElement(By.name("firstname")).clear();
         wd.findElement(By.name("firstname")).sendKeys("first");
         wd.findElement(By.name("middlename")).clear();
@@ -43,14 +61,15 @@ public class ContactCreationTests {
         wd.findElement(By.name("company")).sendKeys("microsoft");
         wd.findElement(By.name("address")).clear();
         wd.findElement(By.name("address")).sendKeys("NY, Statue of Liberty");
-        wd.findElement(By.name("theform")).click();
-        wd.findElement(By.name("submit")).click();
-        wd.findElement(By.linkText("home page")).click();
-        wd.findElement(By.linkText("Logout")).click();
+    }
+
+    private void createNewContact() {
+        wd.findElement(By.linkText("add new")).click();
     }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown() throws Exception {
+        wd.findElement(By.linkText("Logout")).click();
         wd.quit();
     }
 
