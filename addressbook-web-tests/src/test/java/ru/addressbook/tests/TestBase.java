@@ -7,7 +7,7 @@ import ru.addressbook.appmanager.ApplicationManager;
 
 public class TestBase {
 
-    protected final ApplicationManager app = new ApplicationManager(Browser.SAFARI.browserName());
+    protected final ApplicationManager app = new ApplicationManager(Browser.FIREFOX.browserName());
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() throws Exception {

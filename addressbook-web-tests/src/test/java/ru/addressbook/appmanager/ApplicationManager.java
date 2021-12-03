@@ -29,9 +29,8 @@ public class ApplicationManager {
         } else if (browser.equals(Browser.FIREFOX.browserName())){
             System.setProperty("webdriver.firefox.driver", "geckodriver");
             wd = new FirefoxDriver();
-        } else if (browser.equals(Browser.SAFARI.browserName())) {
-            wd = new SafariDriver();
         }
+
         wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         contactHelper = new ContactHelper(wd);
         groupHelper = new GroupHelper(wd);
