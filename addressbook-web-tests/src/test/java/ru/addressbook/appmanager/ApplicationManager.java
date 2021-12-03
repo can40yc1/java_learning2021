@@ -1,8 +1,13 @@
 package ru.addressbook.appmanager;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.remote.Browser;
+import org.openqa.selenium.safari.SafariDriver;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 public class ApplicationManager {
 
@@ -10,12 +15,24 @@ public class ApplicationManager {
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
     private ContactHelper contactHelper;
-    protected ChromeDriver wd;
+    WebDriver wd;
+    private String browser;
+
+    public ApplicationManager(String browser) {
+        this.browser = browser;
+    }
 
     public void init() {
-        System.setProperty("webdriver.chrome.driver", "chromedriver");
-        wd = new ChromeDriver();
-        wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        if (browser == Browser.CHROME.browserName()) {
+            System.setProperty("webdriver.chrome.driver", "chromedriver");
+            wd = new ChromeDriver();
+        } else if (browser == Browser.FIREFOX.browserName()){
+            System.setProperty("webdriver.firefox.driver", "geckodriver");
+            wd = new FirefoxDriver();
+        } else if (browser == Browser.SAFARI.browserName()) {
+            wd = new SafariDriver();
+        }
+        wd.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         contactHelper = new ContactHelper(wd);
         groupHelper = new GroupHelper(wd);
         navigationHelper = new NavigationHelper(wd);
