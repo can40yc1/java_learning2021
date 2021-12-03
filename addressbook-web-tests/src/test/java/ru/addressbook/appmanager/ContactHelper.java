@@ -43,10 +43,6 @@ public class ContactHelper extends HelperBase {
 
     public void confirmContactDeleting() throws InterruptedException {
         Thread.sleep(1000);
-//        WebDriverWait wait = new WebDriverWait(wd, Duration.ofSeconds(5));
-//        wait.until(ExpectedConditions.alertIsPresent());
-        Alert alert = wd.switchTo().alert();
-        System.out.println(alert.getText());
         wd.switchTo().alert().accept();
     }
 
