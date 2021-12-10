@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.addressbook.model.GroupData;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
 
 public class GroupModificationTests extends TestBase {
@@ -28,6 +28,9 @@ public class GroupModificationTests extends TestBase {
 
         before.remove(before.size() - 1);
         before.add(group);
-        Assert.assertEquals(new HashSet<Object>(after), new HashSet<Object>(before));
+        Comparator<? super GroupData> byId = Comparator.comparingInt(GroupData::getId);
+        before.sort(byId);
+        after.sort(byId);
+        Assert.assertEquals(after, before);
     }
 }
