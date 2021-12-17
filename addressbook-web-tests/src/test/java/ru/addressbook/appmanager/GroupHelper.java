@@ -6,9 +6,7 @@ import org.openqa.selenium.WebElement;
 import ru.addressbook.model.GroupData;
 import ru.addressbook.model.Groups;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GroupHelper extends HelperBase {
 
@@ -90,7 +88,7 @@ public class GroupHelper extends HelperBase {
         for (WebElement element : elements) {
             String name = element.getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-            GroupData group = new GroupData().setName(name).setId(id);
+            GroupData group = new GroupData().withName(name).withId(id);
             groups.add(group);
         }
         return groups;
