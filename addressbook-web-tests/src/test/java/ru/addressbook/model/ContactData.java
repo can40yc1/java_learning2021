@@ -112,6 +112,18 @@ public class ContactData {
         return group;
     }
 
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public String getMobilePhone() {
+        return mobilePhone;
+    }
+
+    public String getWorkPhone() {
+        return workPhone;
+    }
+
     @Override
     public String toString() {
         return "ContactData{" +
