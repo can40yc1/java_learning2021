@@ -5,39 +5,36 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.addressbook.model.GroupData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 public class GroupModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
         app.goTo().groupPage();
-        if (app.groupSteps().getList().size() == 0) {
+        if (app.groupSteps().getAll().size() == 0) {
             app.groupSteps().create(new GroupData().setName("test1"));
         }
     }
 
     @Test
     public void testGroupModofocation() {
-        List<GroupData> before = app.groupSteps().getList();
-        int index = before.size() - 1;
+        Set<GroupData> before = app.groupSteps().getAll();
+
+        GroupData modifiedGroup = before.iterator().next();
+
         GroupData group = new GroupData()
                 .setName("test10")
                 .setFooter("test20")
                 .setFooter("test30")
-                .setId(before.get(index).getId());
+                .setId(modifiedGroup.getId());
 
-        app.groupSteps().modify(index, group);
+        app.groupSteps().modify(group);
 
-        List<GroupData> after = app.groupSteps().getList();
+        Set<GroupData> after = app.groupSteps().getAll();
 
-        before.remove(index);
+        before.remove(modifiedGroup);
         before.add(group);
-
-        Comparator<? super GroupData> byId = Comparator.comparingInt(GroupData::getId);
-        before.sort(byId);
-        after.sort(byId);
 
         Assert.assertEquals(after.size(), before.size());
         Assert.assertEquals(after, before);
