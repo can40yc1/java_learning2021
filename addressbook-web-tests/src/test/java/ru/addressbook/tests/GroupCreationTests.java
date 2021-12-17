@@ -3,8 +3,10 @@ package ru.addressbook.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.addressbook.model.GroupData;
+import ru.addressbook.model.Groups;
 
-import java.util.Set;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GroupCreationTests extends TestBase {
 
@@ -12,7 +14,7 @@ public class GroupCreationTests extends TestBase {
     public void testGroupCreation() {
         app.goTo().groupPage();
 
-        Set<GroupData> before = app.groupSteps().getAll();
+        Groups before = app.groupSteps().getAll();
         GroupData group = new GroupData().setName("test1");
 
         app.groupSteps().initGroupCreation();
@@ -20,12 +22,11 @@ public class GroupCreationTests extends TestBase {
         app.groupSteps().submitGroupCreation();
         app.groupSteps().returnToGroupPage();
 
-        Set<GroupData> after = app.groupSteps().getAll();
+        Groups after = app.groupSteps().getAll();
 
-        before.add(group.setId(after.stream().mapToInt(GroupData::getId).max().getAsInt()));
-
-        Assert.assertEquals(after.size(), before.size());
-        Assert.assertEquals(after, before);
+        Assert.assertEquals(after.size(), before.size() + 1);
+        assertThat(after, equalTo(
+                before.withAdded(group.setId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
     }
 
 }
