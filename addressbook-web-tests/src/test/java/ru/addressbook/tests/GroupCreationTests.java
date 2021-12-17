@@ -1,6 +1,5 @@
 package ru.addressbook.tests;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.addressbook.model.GroupData;
 import ru.addressbook.model.Groups;
@@ -16,11 +15,25 @@ public class GroupCreationTests extends TestBase {
         Groups before = app.groupSteps().getAll();
         GroupData group = new GroupData().withName("test1");
         app.groupSteps().create(group);
-        Groups after = app.groupSteps().getAll();
+        assertThat(app.groupSteps().count(), equalTo(before.size() + 1));
 
-        assertThat(after.size(), equalTo(before.size() + 1));
+        Groups after = app.groupSteps().getAll();
         assertThat(after, equalTo(
                 before.withAdded(group.withId(after.stream().mapToInt(GroupData::getId).max().getAsInt()))));
+    }
+
+
+    @Test
+    public void testBadGroupCreation() {
+        app.goTo().groupPage();
+        Groups before = app.groupSteps().getAll();
+        GroupData group = new GroupData().withName("test1'");
+        app.groupSteps().create(group);
+
+        assertThat(app.groupSteps().count(), equalTo(before.size()));
+
+        Groups after = app.groupSteps().getAll();
+        assertThat(after, equalTo(before));
     }
 
 }
