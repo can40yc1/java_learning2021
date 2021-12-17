@@ -71,7 +71,7 @@ public class ContactHelper extends HelperBase {
         GroupHelper groupHelper = new GroupHelper(wd);
         navigationHelper.groupPage();
         if (! groupHelper.isThereAGroupWithName(contactData.getGroup())){
-            groupHelper.create(new GroupData(contactData.getGroup(), null, null));
+            groupHelper.create(new GroupData().setName(contactData.getGroup()));
         }
         navigationHelper.homePage();
         initContactCreation();
