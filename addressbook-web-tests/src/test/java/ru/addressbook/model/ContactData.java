@@ -15,6 +15,7 @@ public class ContactData {
     private String homePhone;
     private String mobilePhone;
     private String workPhone;
+    private String allPhones;
 
     public ContactData withFirstname(String firstname) {
         this.firstname = firstname;
@@ -80,6 +81,11 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -122,6 +128,10 @@ public class ContactData {
 
     public String getWorkPhone() {
         return workPhone;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
     @Override
