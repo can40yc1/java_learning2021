@@ -6,9 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.addressbook.model.ContactData;
+import ru.addressbook.model.Contacts;
 import ru.addressbook.model.GroupData;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ContactHelper extends HelperBase {
@@ -45,8 +45,8 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    public void selectContact(int index) {
-        wd.findElements(By.xpath("//input[@name='selected[]']")).get(index).click();
+    public void selectContactById(int id) {
+        wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
     }
 
     public void deleteSelectedContact() {
@@ -58,19 +58,19 @@ public class ContactHelper extends HelperBase {
         wd.switchTo().alert().accept();
     }
 
-    public void initContactModification(int index) {
-        wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
+    public void initContactModification(ContactData contact) {
+        wd.findElement(By.cssSelector("a[href='edit.php?id=" + contact.getId())).click();
     }
 
     public void submitContactpModification() {
         click(By.name("update"));
     }
 
-    public void createContact(ContactData contactData) {
+    public void create(ContactData contactData) {
         NavigationHelper navigationHelper = new NavigationHelper(wd);
         GroupHelper groupHelper = new GroupHelper(wd);
         navigationHelper.groupPage();
-        if (! groupHelper.isThereAGroupWithName(contactData.getGroup())){
+        if (!groupHelper.isThereAGroupWithName(contactData.getGroup())) {
             groupHelper.create(new GroupData().withName(contactData.getGroup()));
         }
         navigationHelper.homePage();
@@ -80,18 +80,28 @@ public class ContactHelper extends HelperBase {
         returnToHome();
     }
 
-    public boolean isThereAContact() {
-        return isElementPresent(By.xpath("//input[@name='selected[]']"));
+    public void delete(ContactData contact) throws InterruptedException {
+        selectContactById(contact.getId());
+        deleteSelectedContact();
+        confirmContactDeleting();
+        returnToHome();
     }
 
-    public List<ContactData> getContactList() {
-        List<ContactData> contacts = new ArrayList<ContactData>();
+    public void modify(ContactData contact) {
+        initContactModification(contact);
+        fillContactForm(contact, false);
+        submitContactpModification();
+        returnToHome();
+    }
+
+    public Contacts getAll() {
+        Contacts contacts = new Contacts();
         List<WebElement> elements = wd.findElements(By.xpath("//tr[@name=\"entry\"]"));
         for (WebElement element : elements) {
             String firstName = element.findElement(By.xpath("./td[3]")).getText();
             String lastName = element.findElement(By.xpath("./td[2]")).getText();
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-            ContactData contact = new ContactData(id, firstName, lastName);
+            ContactData contact = new ContactData().withId(id).withFirstname(firstName).withLastname(lastName);
             contacts.add(contact);
         }
         return contacts;

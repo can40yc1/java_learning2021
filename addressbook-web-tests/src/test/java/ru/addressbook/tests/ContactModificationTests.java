@@ -1,40 +1,51 @@
 package ru.addressbook.tests;
 
-import jdk.dynalink.linker.LinkerServices;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.addressbook.model.ContactData;
+import ru.addressbook.model.Contacts;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactModificationTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        if (app.contactSteps().getAll().size() == 0) {
+            app.contactSteps().create(new ContactData()
+                    .withFirstname("first")
+                    .withMiddlename("middle")
+                    .withLastname("last")
+                    .withNickname("nick")
+                    .withTitle("mister")
+                    .withCompany("microsoft")
+                    .withAddress("NY, Statue of Liberty")
+                    .withGroup("test1"));
+        }
+    }
+
     @Test
     public void testContactModification() {
-        if (!app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().createContact(new ContactData("first", "middle", "last",
-                    "nick", "mister", "microsoft", "NY, Statue of Liberty", "test1"));
-        }
+        Contacts before = app.contactSteps().getAll();
+        ContactData modifiedContact = before.iterator().next();
+        ContactData contact = new ContactData()
+                .withFirstname("first1")
+                .withMiddlename("middle1")
+                .withLastname("last1")
+                .withNickname("nick1")
+                .withTitle("mister1")
+                .withCompany("microsoft1")
+                .withAddress("NY, Statue of Liberty1")
+                .withId(modifiedContact.getId());
 
-        List<ContactData> before = app.getContactHelper().getContactList();
-        int index = before.size() - 1;
-        ContactData contact = new ContactData(before.get(index).getId(), "first1", "middle1", "last1",
-                "nick1", "mister1", "microsoft1", "NY, Statue of Liberty1", null);
-
-        app.getContactHelper().initContactModification(index);
-        app.getContactHelper().fillContactForm(contact, false);
-        app.getContactHelper().submitContactpModification();
-        app.getContactHelper().returnToHome();
-
-        List<ContactData> after = app.getContactHelper().getContactList();
-
-        before.remove(index);
-        before.add(contact);
-        before.sort(Comparator.comparingInt(ContactData::getId));
-        after.sort(Comparator.comparingInt(ContactData::getId));
+        app.contactSteps().modify(contact);
+        Contacts after = app.contactSteps().getAll();
 
         Assert.assertEquals(after.size(), before.size());
-        Assert.assertEquals(after, before);
+        assertThat(after, equalTo(before.without(modifiedContact).withAdded(contact)));
     }
+
+
 }

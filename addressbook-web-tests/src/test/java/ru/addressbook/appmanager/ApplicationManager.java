@@ -3,9 +3,7 @@ package ru.addressbook.appmanager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
 
@@ -51,7 +49,7 @@ public class ApplicationManager {
         return navigationHelper;
     }
 
-    public ContactHelper getContactHelper() {
+    public ContactHelper contactSteps() {
         return contactHelper;
     }
 
