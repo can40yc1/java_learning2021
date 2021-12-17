@@ -12,21 +12,21 @@ public class GroupModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
-        app.getNavigationHelper().goToGroupPage();
-        if (! app.getGroupHelper().isThereAGroup()) {
-            app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+        app.goTo().groupPage();
+        if (app.groupSteps().getList().size() == 0) {
+            app.groupSteps().create(new GroupData("test1", null, null));
         }
     }
 
     @Test
     public void testGroupModofocation() {
-        List<GroupData> before = app.getGroupHelper().getGroupList();
+        List<GroupData> before = app.groupSteps().getList();
         int index = before.size() - 1;
         GroupData group = new GroupData("test10", "test20", "test30", before.get(index).getId());
 
-        app.getGroupHelper().modifyGroup(index, group);
+        app.groupSteps().modify(index, group);
 
-        List<GroupData> after = app.getGroupHelper().getGroupList();
+        List<GroupData> after = app.groupSteps().getList();
 
         before.remove(index);
         before.add(group);

@@ -69,11 +69,11 @@ public class ContactHelper extends HelperBase {
     public void createContact(ContactData contactData) {
         NavigationHelper navigationHelper = new NavigationHelper(wd);
         GroupHelper groupHelper = new GroupHelper(wd);
-        navigationHelper.goToGroupPage();
+        navigationHelper.groupPage();
         if (! groupHelper.isThereAGroupWithName(contactData.getGroup())){
-            groupHelper.createGroup(new GroupData(contactData.getGroup(), null, null));
+            groupHelper.create(new GroupData(contactData.getGroup(), null, null));
         }
-        navigationHelper.goToHomePage();
+        navigationHelper.homePage();
         initContactCreation();
         fillContactForm(contactData, true);
         submitContactCreation();
