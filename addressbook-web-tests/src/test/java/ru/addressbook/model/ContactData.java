@@ -20,6 +20,7 @@ public class ContactData {
     private String email2;
     private String email3;
     private String allEmails;
+    private String secondaryPhone;
 
     public ContactData withFirstname(String firstname) {
         this.firstname = firstname;
@@ -110,6 +111,11 @@ public class ContactData {
         return this;
     }
 
+    public ContactData withSecondaryPhone(String secondaryPhone) {
+        this.secondaryPhone = secondaryPhone;
+        return this;
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -172,6 +178,10 @@ public class ContactData {
 
     public String getAllEmails() {
         return allEmails;
+    }
+
+    public String getSecondaryPhone() {
+        return secondaryPhone;
     }
 
     @Override
