@@ -1,0 +1,32 @@
+[
+  {
+    "firstname": "first 0",
+    "middlename": "middle 0",
+    "lastname": "last 0",
+    "nickname": "nick 0",
+    "title": "title 0",
+    "company": "company 0",
+    "address": "address 0",
+    "group": "group 0"
+  },
+  {
+    "firstname": "first 1",
+    "middlename": "middle 1",
+    "lastname": "last 1",
+    "nickname": "nick 1",
+    "title": "title 1",
+    "company": "company 1",
+    "address": "address 1",
+    "group": "group 1"
+  },
+  {
+    "firstname": "first 2",
+    "middlename": "middle 2",
+    "lastname": "last 2",
+    "nickname": "nick 2",
+    "title": "title 2",
+    "company": "company 2",
+    "address": "address 2",
+    "group": "group 2"
+  }
+]

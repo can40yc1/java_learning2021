@@ -36,8 +36,6 @@ public class GroupDataGenerator {
             return;
         }
         generator.run();
-
-
     }
 
     private void run() throws IOException {
@@ -54,7 +52,7 @@ public class GroupDataGenerator {
     }
 
     private List<GroupData> generateGroups(int count) {
-        List<GroupData> groups = new ArrayList<GroupData>();
+        List<GroupData> groups = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             groups.add(new GroupData()
                     .withName(String.format("test %s", i))
