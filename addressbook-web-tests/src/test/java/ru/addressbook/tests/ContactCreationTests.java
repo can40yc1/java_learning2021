@@ -11,8 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
 
-
-    @Test()
+    @Test
     public void testContactCreation() {
 
         File photo = new File("src/test/resources/photo1.png");
