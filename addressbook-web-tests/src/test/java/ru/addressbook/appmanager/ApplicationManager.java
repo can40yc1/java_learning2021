@@ -20,6 +20,7 @@ public class ApplicationManager {
     private ContactHelper contactHelper;
     WebDriver wd;
     private String browser;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -27,12 +28,16 @@ public class ApplicationManager {
     }
 
     public void init() throws IOException {
+
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
+
         if (browser.equals(Browser.CHROME.browserName())) {
             System.setProperty("webdriver.chrome.driver", "chromedriver");
             wd = new ChromeDriver();
-        } else if (browser.equals(Browser.FIREFOX.browserName())){
+        } else if (browser.equals(Browser.FIREFOX.browserName())) {
             System.setProperty("webdriver.firefox.driver", "geckodriver");
             wd = new FirefoxDriver();
         }
@@ -59,6 +64,10 @@ public class ApplicationManager {
 
     public ContactHelper contactSteps() {
         return contactHelper;
+    }
+
+    public DbHelper db() {
+        return dbHelper;
     }
 
 
