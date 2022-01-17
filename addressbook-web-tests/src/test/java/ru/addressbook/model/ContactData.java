@@ -69,7 +69,7 @@ public class ContactData {
     @Expose
     @Column(name = "photo")
     private String photo;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "address_in_groups",
             joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
     private Set<GroupData> groups = new HashSet<>();
@@ -250,12 +250,12 @@ public class ContactData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(title, that.title) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(homePhone, that.homePhone) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(workPhone, that.workPhone) && Objects.equals(email1, that.email1) && Objects.equals(email2, that.email2) && Objects.equals(email3, that.email3) && Objects.equals(secondaryPhone, that.secondaryPhone);
+        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(title, that.title) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(homePhone, that.homePhone) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(workPhone, that.workPhone) && Objects.equals(email1, that.email1) && Objects.equals(email2, that.email2) && Objects.equals(email3, that.email3) && Objects.equals(secondaryPhone, that.secondaryPhone) && Objects.equals(groups, that.groups);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, middlename, lastname, nickname, title, company, address, homePhone, mobilePhone, workPhone, email1, email2, email3, secondaryPhone);
+        return Objects.hash(id, firstname, middlename, lastname, nickname, title, company, address, homePhone, mobilePhone, workPhone, email1, email2, email3, secondaryPhone, groups);
     }
 
     @Override
@@ -276,11 +276,24 @@ public class ContactData {
                 ", email2='" + email2 + '\'' +
                 ", email3='" + email3 + '\'' +
                 ", secondaryPhone='" + secondaryPhone + '\'' +
+                ", groups=" + groups +
                 '}';
     }
 
     public ContactData inGroup(GroupData group) {
         groups.add(group);
+        return this;
+    }
+
+    public ContactData inGroups(Groups groups) {
+        for (GroupData group : groups) {
+            inGroup(group);
+        }
+        return this;
+    }
+
+    public ContactData notInGroup(GroupData group) {
+        groups.remove(group);
         return this;
     }
 }
