@@ -6,10 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.addressbook.model.ContactData;
-import ru.addressbook.model.Contacts;
 import ru.addressbook.model.GroupData;
-
-import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -107,26 +104,12 @@ public class ContactHelper extends HelperBase {
         return wd.findElements(By.name("selected[]")).size();
     }
 
-    public Contacts getAll() {
-        Contacts contacts = new Contacts();
-        List<WebElement> elements = wd.findElements(By.xpath("//tr[@name=\"entry\"]"));
-        for (WebElement element : elements) {
-            String lastName = element.findElement(By.xpath("./td[2]")).getText();
-            String firstName = element.findElement(By.xpath("./td[3]")).getText();
-            String address = element.findElement(By.xpath("./td[4]")).getText();
-            String allEmails = element.findElement(By.xpath("./td[5]")).getText();
-            String allPhones = element.findElement(By.xpath("./td[6]")).getText();
-            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("id"));
-            ContactData contact = new ContactData()
-                    .withId(id)
-                    .withFirstname(firstName)
-                    .withLastname(lastName)
-                    .withAllPhones(allPhones)
-                    .withAllEmails(allEmails)
-                    .withAddress(address);
-            contacts.add(contact);
-        }
-        return contacts;
+    public void getContactDetails(ContactData contact) {
+        WebElement element = wd.findElement(By.xpath(String.format("//tr[@name=\"entry\"]//td//input[@id=\"" + contact.getId() + "\"]")));
+        String allEmails = element.findElement(By.xpath(".//..//..//td[5]")).getText();
+        String allPhones = element.findElement(By.xpath(".//..//..//td[6]")).getText();
+        contact.withAllPhones(allPhones)
+                .withAllEmails(allEmails);
     }
 
     public ContactData infoFromEditForm(ContactData contact) {

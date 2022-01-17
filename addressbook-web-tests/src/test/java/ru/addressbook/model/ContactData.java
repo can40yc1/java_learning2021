@@ -18,62 +18,66 @@ public class ContactData {
     private int id = 0;
     @Expose
     @Column(name = "firstname")
-    private String firstname;
+    private String firstname = "";
     @Expose
     @Column(name = "middlename")
-    private String middlename;
+    private String middlename = "";
     @Expose
     @Column(name = "lastname")
-    private String lastname;
+    private String lastname = "";
     @Expose
     @Column(name = "nickname")
-    private String nickname;
+    private String nickname = "";
     @Expose
     @Column(name = "title")
-    private String title;
+    private String title = "";
     @Expose
     @Column(name = "company")
-    private String company;
+    private String company = "";
     @Expose
     @Column(name = "address")
-    private String address;
+    private String address = "";
     @Expose
     @Transient
     private String group;
     @Expose
     @Column(name = "home")
-    private String homePhone;
+    private String homePhone = "";
     @Expose
     @Column(name = "mobile")
-    private String mobilePhone;
+    private String mobilePhone = "";
     @Expose
     @Column(name = "work")
-    private String workPhone;
+    private String workPhone = "";
     @Expose
     @Transient
     private String allPhones;
     @Expose
     @Column(name = "email")
-    private String email1;
+    private String email1 = "";
     @Expose
     @Column(name = "email2")
-    private String email2;
+    private String email2 = "";
     @Expose
     @Column(name = "email3")
-    private String email3;
+    private String email3 = "";
     @Expose
     @Transient
     private String allEmails;
     @Expose
     @Column(name = "phone2")
-    private String secondaryPhone;
+    private String secondaryPhone = "";
     @Expose
     @Column(name = "photo")
     private String photo;
 
 
     public File getPhoto() {
-        return new File(photo);
+        if (photo != null) {
+            return new File(photo);
+        } else {
+            return null;
+        }
     }
 
     public ContactData withPhoto(File photo) {
@@ -244,24 +248,45 @@ public class ContactData {
     }
 
     @Override
-    public String toString() {
-        return "ContactData{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(lastname, that.lastname);
+        return id == that.id && Objects.equals(firstname, that.firstname) && Objects.equals(middlename, that.middlename) && Objects.equals(lastname, that.lastname) && Objects.equals(nickname, that.nickname) && Objects.equals(title, that.title) && Objects.equals(company, that.company) && Objects.equals(address, that.address) && Objects.equals(homePhone, that.homePhone) && Objects.equals(mobilePhone, that.mobilePhone) && Objects.equals(workPhone, that.workPhone) && Objects.equals(email1, that.email1) && Objects.equals(email2, that.email2) && Objects.equals(email3, that.email3) && Objects.equals(secondaryPhone, that.secondaryPhone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstname, lastname);
+        return Objects.hash(id, firstname, middlename, lastname, nickname, title, company, address, homePhone, mobilePhone, workPhone, email1, email2, email3, secondaryPhone);
+    }
+
+//    @Override
+//    public String toString() {
+//        return "ContactData{" +
+//                "id=" + id +
+//                ", firstname='" + firstname + '\'' +
+//                ", lastname='" + lastname + '\'' +
+//                '}';
+//    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", middlename='" + middlename + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", title='" + title + '\'' +
+                ", company='" + company + '\'' +
+                ", address='" + address + '\'' +
+                ", homePhone='" + homePhone + '\'' +
+                ", mobilePhone='" + mobilePhone + '\'' +
+                ", workPhone='" + workPhone + '\'' +
+                ", email1='" + email1 + '\'' +
+                ", email2='" + email2 + '\'' +
+                ", email3='" + email3 + '\'' +
+                ", secondaryPhone='" + secondaryPhone + '\'' +
+                '}';
     }
 }
