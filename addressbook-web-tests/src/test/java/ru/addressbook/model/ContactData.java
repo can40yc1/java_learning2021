@@ -6,7 +6,9 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import jakarta.persistence.*;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -38,9 +40,6 @@ public class ContactData {
     @Column(name = "address")
     private String address = "";
     @Expose
-    @Transient
-    private String group;
-    @Expose
     @Column(name = "home")
     private String homePhone = "";
     @Expose
@@ -70,6 +69,10 @@ public class ContactData {
     @Expose
     @Column(name = "photo")
     private String photo;
+    @ManyToMany
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "group_id"))
+    private Set<GroupData> groups = new HashSet<>();
 
 
     public File getPhoto() {
@@ -117,11 +120,6 @@ public class ContactData {
 
     public ContactData withAddress(String address) {
         this.address = address;
-        return this;
-    }
-
-    public ContactData withGroup(String group) {
-        this.group = group;
         return this;
     }
 
@@ -179,6 +177,10 @@ public class ContactData {
         return this;
     }
 
+    public Groups getGroups() {
+        return new Groups(groups);
+    }
+
     public String getFirstname() {
         return firstname;
     }
@@ -205,10 +207,6 @@ public class ContactData {
 
     public String getAddress() {
         return address;
-    }
-
-    public String getGroup() {
-        return group;
     }
 
     public String getHomePhone() {
@@ -260,15 +258,6 @@ public class ContactData {
         return Objects.hash(id, firstname, middlename, lastname, nickname, title, company, address, homePhone, mobilePhone, workPhone, email1, email2, email3, secondaryPhone);
     }
 
-//    @Override
-//    public String toString() {
-//        return "ContactData{" +
-//                "id=" + id +
-//                ", firstname='" + firstname + '\'' +
-//                ", lastname='" + lastname + '\'' +
-//                '}';
-//    }
-
     @Override
     public String toString() {
         return "ContactData{" +
@@ -288,5 +277,10 @@ public class ContactData {
                 ", email3='" + email3 + '\'' +
                 ", secondaryPhone='" + secondaryPhone + '\'' +
                 '}';
+    }
+
+    public ContactData inGroup(GroupData group) {
+        groups.add(group);
+        return this;
     }
 }

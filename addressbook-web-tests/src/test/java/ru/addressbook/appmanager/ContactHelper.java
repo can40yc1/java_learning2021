@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.addressbook.model.ContactData;
 import ru.addressbook.model.GroupData;
+import ru.addressbook.model.Groups;
 
 public class ContactHelper extends HelperBase {
 
@@ -41,7 +42,10 @@ public class ContactHelper extends HelperBase {
 
 
         if (creating) {
-            new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
+            if (contactData.getGroups().size() > 0) {
+                Assert.assertTrue(contactData.getGroups().size() == 1);
+                new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
+            }
         } else {
             Assert.assertFalse(isElementPresent(By.name("new_group")));
         }
@@ -68,20 +72,22 @@ public class ContactHelper extends HelperBase {
         wd.findElement(By.cssSelector("a[href='edit.php?id=" + contact.getId())).click();
     }
 
-    public void submitContactpModification() {
+    public void submitContactModification() {
         click(By.name("update"));
     }
 
     public void create(ContactData contactData) {
         NavigationHelper navigationHelper = new NavigationHelper(wd);
         GroupHelper groupHelper = new GroupHelper(wd);
-        navigationHelper.groupPage();
-        if (!groupHelper.isThereAGroupWithName(contactData.getGroup())) {
-            groupHelper.create(new GroupData().withName(contactData.getGroup()));
+        DbHelper dbHelper = new DbHelper();
+        if (dbHelper.groups().size() == 0) {
+            navigationHelper.groupPage();
+            groupHelper.create(new GroupData().withName("test1"));
         }
+        Groups groups = dbHelper.groups();
         navigationHelper.homePage();
         initContactCreation();
-        fillContactForm(contactData, true);
+        fillContactForm(contactData.inGroup(groups.iterator().next()), true);
         submitContactCreation();
         returnToHome();
     }
@@ -96,7 +102,7 @@ public class ContactHelper extends HelperBase {
     public void modify(ContactData contact) {
         initContactModification(contact);
         fillContactForm(contact, false);
-        submitContactpModification();
+        submitContactModification();
         returnToHome();
     }
 

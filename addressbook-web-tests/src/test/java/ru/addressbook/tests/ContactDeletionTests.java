@@ -20,8 +20,7 @@ public class ContactDeletionTests extends TestBase {
                     .withNickname("nick")
                     .withTitle("mister")
                     .withCompany("microsoft")
-                    .withAddress("NY, Statue of Liberty")
-                    .withGroup("test1"));
+                    .withAddress("NY, Statue of Liberty"));
         }
     }
 

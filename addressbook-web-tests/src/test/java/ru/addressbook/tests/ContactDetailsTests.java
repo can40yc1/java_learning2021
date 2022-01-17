@@ -27,7 +27,6 @@ public class ContactDetailsTests extends TestBase {
                     .withWorkPhone("323")
                     .withEmail2("asd@mail.com")
                     .withEmail3("uno@gmail.ru")
-                    .withGroup("test1")
                     .withSecondaryPhone("33-22 1"));
         }
     }
