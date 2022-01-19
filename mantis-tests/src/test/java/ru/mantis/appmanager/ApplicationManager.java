@@ -20,6 +20,8 @@ public class ApplicationManager {
     private FtpHelper ftp;
     private MailHelper mailHelper;
     private JamesHelper jamesHelper;
+    private PasswordChangeHelper passwordChangeHelper;
+    private DbHelper dbHelper;
 
     public ApplicationManager(String browser) {
         this.browser = browser;
@@ -30,6 +32,8 @@ public class ApplicationManager {
 
         String target = System.getProperty("target", "local");
         properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
+
+        dbHelper = new DbHelper();
     }
 
     public void stop() {
@@ -51,6 +55,13 @@ public class ApplicationManager {
             registrationHelper = new RegistraionHelper(this);
         }
         return registrationHelper;
+    }
+
+    public PasswordChangeHelper passwordChange() {
+        if (passwordChangeHelper == null) {
+            passwordChangeHelper = new PasswordChangeHelper(this);
+        }
+        return passwordChangeHelper;
     }
 
     public FtpHelper ftp() {
@@ -87,5 +98,9 @@ public class ApplicationManager {
             jamesHelper = new JamesHelper(this);
         }
         return jamesHelper;
+    }
+
+    public DbHelper db() {
+        return dbHelper;
     }
 }
