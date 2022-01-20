@@ -16,6 +16,9 @@ public class HelperBase {
         this.wd = app.getDriver();
     }
 
+    public HelperBase() {
+    }
+
     protected void click(By locator) {
         wd.findElement(locator).click();
     }
