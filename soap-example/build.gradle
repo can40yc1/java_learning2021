@@ -1,0 +1,37 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'no.nils:wsdl2java:0.12'
+    }
+}
+
+plugins {
+    id 'java'
+    id "com.yupzip.wsdl2java" version "2.2.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.testng:testng:7.4.0'
+    implementation 'com.sun.xml.ws:jaxws-rt:2.3.5'
+}
+
+test {
+    useTestNG()
+}
+
+wsdl2java {
+    generatedWsdlDir = file("$projectDir/src/main/java")
+    wsdlDir = file("$projectDir/src/main/resources/")
+    wsdlsToGenerate = [['/Users/aleksandr.shleyko/reps/java_learning2021/soap-example/src/main/resources/ipservice.wsdl']]
+    cxfVersion = "3.4.5"
+    cxfPluginVersion = "2.4.0"
+}

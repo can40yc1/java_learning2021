@@ -5,8 +5,13 @@
       <module name="addressbook-bew-tests" target="11" />
       <module name="addressbook-bew-tests.main" target="11" />
       <module name="addressbook-bew-tests.test" target="11" />
+      <module name="mantis-tests.soap-sample.main" target="11" />
+      <module name="mantis-tests.soap-sample.test" target="11" />
       <module name="org.example.addressbook-bew-tests.main" target="11" />
       <module name="org.example.addressbook-bew-tests.test" target="11" />
+      <module name="soap-sample" target="11" />
+      <module name="soap-sample.main" target="11" />
+      <module name="soap-sample.test" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
