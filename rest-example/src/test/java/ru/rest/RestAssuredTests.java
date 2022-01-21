@@ -3,10 +3,7 @@ package ru.rest;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.jayway.restassured.RestAssured;
-import org.apache.http.client.fluent.Executor;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.message.BasicNameValuePair;
+import io.restassured.RestAssured;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,8 +41,8 @@ public class RestAssuredTests {
 
     private int createIssue(Issue issue) throws IOException {
         String json = RestAssured.given()
-                .parameter("subject", issue.getSubject())
-                .parameter("description", issue.getDescription())
+                .param("subject", issue.getSubject())
+                .param("description", issue.getDescription())
                 .post("https://bugify.stqa.ru/api/issues.json").asString();
         JsonElement parsed = parseString(json);
         return parsed.getAsJsonObject().get("issue_id").getAsInt();
