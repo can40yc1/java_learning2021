@@ -13,7 +13,7 @@ import java.util.Set;
 import static com.google.gson.JsonParser.parseString;
 import static org.testng.Assert.assertEquals;
 
-public class RestAssuredTests {
+public class RestAssuredTests extends TestBase {
 
     @BeforeClass
     public void init() {

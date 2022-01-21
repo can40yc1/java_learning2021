@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.http.client.fluent.Executor;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.message.BasicNameValuePair;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -14,7 +15,12 @@ import java.util.Set;
 import static com.google.gson.JsonParser.parseString;
 import static org.testng.Assert.assertEquals;
 
-public class RestTests {
+public class RestTests extends TestBase {
+
+    @BeforeClass
+    public void checkBlockingIssue() {
+        skipIfNotFixed(1641);
+    }
 
     @Test
     public void testCreateIssue() throws IOException {
