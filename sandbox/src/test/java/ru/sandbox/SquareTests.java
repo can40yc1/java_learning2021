@@ -9,7 +9,7 @@ public class SquareTests {
     @Test
     public void testSquareMethod() {
         Square square = new Square(5);
-        Assert.assertEquals(square.squareMethod(), 20);
+        Assert.assertEquals(square.squareMethod(), 25);
     }
 
 }
